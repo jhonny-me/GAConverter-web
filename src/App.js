@@ -8,7 +8,9 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      file: null
+      file: null,
+      swiftLink: null,
+      kotlinLink: null
     }
   }
 
@@ -16,6 +18,10 @@ class App extends Component {
     e.preventDefault()
     console.log(this.state.file)
     this.fileUpload(this.state.file).then((res) => {
+      this.setState({
+        swiftLink: res.data.swift,
+        kotlinLink: res.data.kotlin
+      })
       console.log(res)
     })
   }
@@ -37,28 +43,27 @@ class App extends Component {
   }
 
   render() {
+    const {swiftLink, kotlinLink} = this.state
+    console.log('render')
+    console.log(this.state)
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
         <body>
           <form onSubmit={this.onFormSubmit}>
             <h1>File Upload</h1>
             <input type="file" onChange={this.onChange} />
             <button type="submit">Upload</button>
           </form>
+          <div>
+            <a class="btn" role="button" href={swiftLink} download="GeneratedGaEvents.swift">
+              {swiftLink}
+            </a>
+          </div>
+          <div>
+            <a class="btn" role="button" href={kotlinLink} download="GeneratedGaEvents.kt">
+              {kotlinLink}
+            </a>
+          </div>
         </body>
       </div>
     );
